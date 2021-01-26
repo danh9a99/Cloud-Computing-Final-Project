@@ -1,0 +1,226 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Config
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <form method="post" action="">
+        <input type="text" name="ip" value="" placeholder="Nhập ip..." />
+        <input type="text" name="serverName" value="" placeholder="Nhập user..." />
+        <input type="text" name="passWord" value="" placeholder="Nhập pass..." />
+        <input type="submit" name="submit" />
+    </form>
+
+</div>
+<div class="table-content" style="margin-top: 50px">
+    <button class="btn btn-outline-success" data-toggle="modal" data-target="#createContainer">Khởi tạo Container</button>
+
+    <hr />
+
+    <table id="mytable" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ContainerName</th>
+                <th scope="col">Giới hạn CPU</th>
+                <th scope="col">Giới hạn RAM</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="contenttable">
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createContainer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Khởi tạo container</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Home" asp-action="Create">
+                    <input id="namecc" value="" hidden name="ContainerName" />
+                    <div class="dropdown">
+                        <input id="limitRAM" name="LimitRAM" value="3" hidden />
+                        <select class="" onchange="valueRAM(this)">
+                            <option>Giới hạn RAM</option>
+                            <option>64MB</option>
+                            <option>128MB</option>
+                            <option>256MB</option>
+                            <option>512MB</option>
+                        </select>
+                    </div>
+                    <div class="dropdown" style="margin-top:10px">
+                        <input id="limitCPU" name="LimitCPU" value="6" hidden />
+                        <select class="select-thietbi-def" onchange="valueCPU(this)">
+                            <option>Giới hạn CPU</option>
+                            <option>5%</option>
+                            <option>7%</option>
+                            <option>9%</option>
+                            <option>12%</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tạo</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Tạo</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+     //Lấy username
+    var userID = @Html.Raw(ViewBag.UserID);
+    var locationTemp = localStorage.getItem("username");
+    function funcCheckedID() {
+        for (var i = 0; i < userID.length; i++) {
+
+            if (userID[i].userName === locationTemp) {
+                return userID[i].userID;
+                break;
+            }
+        }
+        //return 2;
+    };
+    var checkedID = funcCheckedID();
+    var container = @Html.Raw(ViewBag.Containers);
+    var listConRunning = "@ViewBag.ContainerNameStatus";
+    var temp = listConRunning.split(";");
+
+
+    var _nameActive = [];
+    for (var i = 1; i < temp.length; i++) {
+        _nameActive.push(temp[i].split("&")[0]);
+    }
+
+    for (var i = 0; i < container.length; i++) {
+        //temp();
+        count = i + 1;
+        if (checkedID == container[i].UserID) {
+
+            var index = _nameActive.indexOf(container[i].ContainerName);
+            if (index == -1) {
+                document.getElementById("contenttable").innerHTML += '<tr><th scope="row">' + count + '</th>' +
+                    '<td>' + container[i].ContainerName + '</td>' +
+                    ' <td>' + container[i].LimitCPU + '%</td>' +
+                    ' <td>' + container[i].LimitRAM + 'MB</td>' +
+                    '<td><button id="' + container[i].ContainerName + '" onclick="getElementElse(this.id)" class="btn btn-outline-success">Khởi động</button></td></tr>';
+            }
+            else {
+                           document.getElementById("contenttable").innerHTML += '<tr><th scope="row"><strong>' + count + '</strong></th>' +
+                        '<td><strong>' + container[i].ContainerName + '</strong></td>' +
+                        ' <td><strong>' + container[i].LimitCPU + '%</strong></td>' +
+                        ' <td><strong>' + container[i].LimitRAM + 'MB</strong></td>' +
+                        '<td><button id="' + container[i].ContainerName+'" onclick="getElementIf(this.id)"  class="btn btn-outline-warning">Tắt Container</button></td></tr>';
+            }
+        }
+
+    }
+
+
+    function valueRAM(obj) {
+        if (obj.value == '') {
+
+        } else {
+
+            $("#limitRAM").val(obj.value.split("MB")[0]);
+        }
+    }
+    function valueCPU(obj) {
+        if (obj.value == '') {
+
+        } else {
+            $("#limitCPU").val(obj.value.split("%")[0]);
+        }
+    }
+</script>
+<script>
+    //obj = []
+
+
+    //   //lấy cell table
+    //function GetCellValues() {
+    //    var table = document.getElementById('mytable');
+    //    for (var r = 1, n = table.rows.length; r < n; r++) {
+    //        for (var c = 1, m = table.rows[r].cells.length; c < m; c++) {
+    //            console.log(table.rows[r].cells[c].innerHTML);
+    //            obj.push(
+    //                table.rows[r].cells[1].innerHTML
+    //            );
+    //        }
+    //    }
+    //}
+    //Lấy id truyền về controller
+    let _urlStartUp = "@Html.Raw(Url.Action("StartUp", "Home"))";
+    let _urlShutDown = "@Html.Raw(Url.Action("ShutDown","Home"))";
+    function getElementElse(id) {
+
+        $.ajax({
+            url: _urlStartUp,
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ContainerName: id
+            }),
+            success: function (data) {
+                location.reload();
+                // Truong hop ok co du lieu
+                if (data.IsOk === true) {
+                    if (data.PayLoad !== null && data.PayLoad !== undefined) {
+
+                    }
+
+
+                }
+                else {
+
+                }
+            },
+            //beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + token); },
+            error: function (xhr, textStatus, errorThrown) {
+
+            }
+        });
+    }
+    function getElementIf(id) {
+        $.ajax({
+            url: _urlShutDown,
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ContainerName: id
+            }),
+            success: function (data) {
+                location.reload();
+                // Truong hop ok co du lieu
+                if (data.IsOk === true) {
+                    if (data.PayLoad !== null && data.PayLoad !== undefined) {
+                        // In this case do nothing here
+                    }
+
+
+                }
+                else {
+
+                }
+            },
+            //beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', 'Bearer ' + token); },
+            error: function (xhr, textStatus, errorThrown) {
+
+            }
+        });
+    }
+
+</script>

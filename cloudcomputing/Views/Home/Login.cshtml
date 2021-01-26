@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<body>
+    <h1>Login</h1>
+    <input id="username" type="text" autocomplete="off" value="" placeholder="Nhập Username..." />
+    <input id="password" type="password" autocomplete="off" value="" placeholder="Nhập PassWord..." />
+    <button onclick="login()" class="btn btn-outline-primary">Đăng nhập</button>
+</body>
+
+<script>
+    let _listUsers = @Html.Raw(ViewBag.ListUser);
+    
+    function login() {
+        var _userName = $("#username").val();
+        var _passWord = $("#password").val();
+
+        for (var i = 0; i < _listUsers.length; i++) {
+            if (_userName == _listUsers[i].Username) {
+                if (_passWord == _listUsers[i].Password) {
+                    localStorage.setItem("username", _userName);
+                    window.location.href = "/trang-chu";
+                    break;
+
+                } else {
+                    alert("Đăng nhập thất bại *");
+                }
+            } else {
+                if (i == _listUsers.length - 1) {
+                    alert("Đăng nhập thất bại");
+                } 
+            }  
+        }
+    }
+</script>
