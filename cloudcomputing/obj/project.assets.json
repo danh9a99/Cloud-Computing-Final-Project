@@ -8902,32 +8902,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ngoth\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\ngoth\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VS2019\\cloudcomputing\\cloudcomputing\\cloudcomputing.csproj",
+      "projectUniqueName": "D:\\Proj\\Cloud-Computing-Final-Project\\cloudcomputing\\cloudcomputing.csproj",
       "projectName": "cloudcomputing",
-      "projectPath": "D:\\VS2019\\cloudcomputing\\cloudcomputing\\cloudcomputing.csproj",
+      "projectPath": "D:\\Proj\\Cloud-Computing-Final-Project\\cloudcomputing\\cloudcomputing.csproj",
       "packagesPath": "C:\\Users\\ngoth\\.nuget\\packages\\",
-      "outputPath": "D:\\VS2019\\cloudcomputing\\cloudcomputing\\obj\\",
+      "outputPath": "D:\\Proj\\Cloud-Computing-Final-Project\\cloudcomputing\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
         "C:\\Users\\ngoth\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files (x86)\\Progress\\Telerik UI for Xamarin R2 2020\\VSExtensions\\VS2019": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
